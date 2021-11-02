@@ -14,7 +14,7 @@ class _CovidTodayScreenState extends State<CovidTodayScreen> {
 
   void getData() async {
     iCovidToday = await CovidService().getCovidToday();
-    // print(iCovidToday);
+
     setState(() {});
   }
 
@@ -41,52 +41,73 @@ class _CovidTodayScreenState extends State<CovidTodayScreen> {
                 width: double.infinity,
                 child: Center(
                   child: Text(
-                    "Date: ${iCovidToday.date}",
+                    "Update : ${iCovidToday.updateDate}",
                     style: TextStyle(
-                      fontSize: (s.height * 0.01) + (s.width * 0.01),
+                      fontSize: (s.height * 0.02) + (s.width * 0.01),
                       fontWeight: FontWeight.bold
                     ),
                   )
                 ),
               ),
+              //new case 
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: s.height * 0.15,
-                    child: Text(
-                      "New case: ${iCovidToday.newCase}"
-                    ),
+                    padding: EdgeInsets.only(right: 20, left: 20),
+                    color: Colors.red,
+                    height: s.height * 0.3,
+                    width: s.width * 0.2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          "New Case: ${iCovidToday.newCase}".toString()
+                          // .replaceAllMapped(from, (match) => null)
+                          ,style: TextStyle(
+                            
+                          ),
+                        ),
+                        SizedBox(height: s.height * 0.05,),
+                        Text("Total Case: ${iCovidToday.totalCase}"),
+                      ],
+                    )
                   ),
+                  SizedBox(width: 10,),
                   Container(
-                    height: s.height * 0.15,
-                    child: Text("Total case: ${iCovidToday.totalCase}"),
+                    padding: EdgeInsets.only(right: 20, left: 20),
+                    color: Colors.red,
+                    height: s.height * 0.3,
+                    width: s.width * 0.2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text("New Death: ${iCovidToday.newDeath}"),
+                        SizedBox(height: s.height * 0.05,),
+                        Text("Total Death: ${iCovidToday.totalDeath}"),
+                      ],
+                    )
                   ),
+                 
                 ],
               ),
+              SizedBox(height: 10,),
+              
+
+              //recovery
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
-                    height: s.height * 0.15,
-                    child: Text("New death: ${iCovidToday.newDeath}"),
-                  ),
-                  Container(
-                    height: s.height * 0.15,
-                    child: Text("Total death: ${iCovidToday.totalCase}"),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    height: s.height * 0.15,
-                    child: Text("New recovered: ${iCovidToday.newRecovered}"),
-                  ),
-                  Container(
-                    height: s.height * 0.15,
-                    child: Text("Total recovered: ${iCovidToday.totolRecovered}"),
+                    padding: EdgeInsets.only(right: 20, left: 20),
+                    color: Colors.red,
+                    height: s.height * 0.2,
+                    width: s.width * 0.3,
+                    child: Column(
+                      children: [],
+                    )
                   ),
                 ],
               )

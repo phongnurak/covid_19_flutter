@@ -1,9 +1,13 @@
+import 'package:covid_19_flutter/screen/covidToday.dart';
+import 'package:covid_19_flutter/screen/covidTodayByProvinces.dart';
 import 'package:covid_19_flutter/screen/home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(MyApp());
 }
+
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -14,7 +18,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeScreen(),
+      routes: {
+        '/': (context) => HomeScreen(),
+        '/CovidToday': (context) => CovidTodayScreen(),
+        '/CovidByProvince' : (context) => CovidTodayByProvincesScreen(),
+      },
+      initialRoute: "/",
+      // home: HomeScreen(),
     );
   }
 }
