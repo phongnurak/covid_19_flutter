@@ -1,5 +1,7 @@
 import 'package:covid_19_flutter/model/md_covidTodayByprovinces.dart';
+import 'package:covid_19_flutter/model/md_province.dart';
 import 'package:covid_19_flutter/service/covid19.dart';
+import 'package:covid_19_flutter/service/thailandAddress.dart';
 import 'package:flutter/material.dart';
 
 class CovidTodayByProvincesScreen extends StatefulWidget {
@@ -12,14 +14,38 @@ class CovidTodayByProvincesScreen extends StatefulWidget {
 class _CovidTodayByProvincesScreenState extends State<CovidTodayByProvincesScreen> {
   List<ICovidTodayByProvinces> covidByProvinces = [];
   String curDate = DateTime.now().toIso8601String().split("T")[0];
+  String provinceSelected;
+  ICovidTodayByProvinces provinceData;
+  List<IProvince> provinces = [];
   
   void getData() async {
-    covidByProvinces = await CovidService().getCovidTodayByProvinces();
+    covidByProvinces = await CovidService().getCovidTodayAllProvinces();
+
+  }
+
+  void getProvince() async {
+    provinces = await ThailandAddressService().getProvince();
+    if (mounted) {
+      setState((){});
+    }
+  }
+
+  void filterProvinceData(String province){
+    covidByProvinces.forEach((element) { 
+      if (element.province == province) {
+        if (mounted) {
+          setState(() {
+            provinceData = element;
+          });
+        }
+      }
+    });
   }
 
   @override
     void initState() {
       getData();
+      getProvince();
       super.initState();
     }
 
@@ -47,6 +73,24 @@ class _CovidTodayByProvincesScreenState extends State<CovidTodayByProvincesScree
                 )
               ),
 
+              DropdownButton(
+                hint: Text("Select Province"),
+                value: provinceSelected,
+                onChanged: (province){
+                  print(province);
+                  filterProvinceData(province);
+                  setState(() {
+                    provinceSelected = province;
+                  });
+                },
+                items: provinces.map((p){
+                  return DropdownMenuItem(
+                    child: Text("${p.name}"),
+                    value: p.name,
+                  );
+                }).toList(),
+              ),
+
               Expanded(
                 child: Container(
                   // height: s.height ,
@@ -61,13 +105,13 @@ class _CovidTodayByProvincesScreenState extends State<CovidTodayByProvincesScree
                       ),
                       columns: [
                         DataColumn(label: Text(
-                          "Province",
+                          "New case",
                           style: TextStyle(
                             fontSize: 15
                           )
                         )),
                         DataColumn(label: Text(
-                          "New case",
+                          "Total case",
                           style: TextStyle(
                             fontSize: 15
                           )
@@ -78,10 +122,30 @@ class _CovidTodayByProvincesScreenState extends State<CovidTodayByProvincesScree
                             fontSize: 15
                           )
                         )),
+                        DataColumn(label: Text(
+                          "Total Death",
+                          style: TextStyle(
+                            fontSize: 15
+                          )
+                        )),
                         
                       ],
                       rows: [
-
+                        DataRow(
+                          cells:
+                          provinceData != null ? <DataCell>[
+                            DataCell(Text('${provinceData.newCase}')),
+                            DataCell(Text('${provinceData.totalCase}')),
+                            DataCell(Text('${provinceData.newDeath}')),
+                            DataCell(Text('${provinceData.totalDeath}')),
+                          ] : 
+                          [
+                            DataCell(Text('0')),
+                            DataCell(Text('0')),
+                            DataCell(Text('0')),
+                            DataCell(Text('0')),
+                          ]
+                        )
                       ],
                     ),
                   ),

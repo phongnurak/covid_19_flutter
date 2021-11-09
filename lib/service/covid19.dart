@@ -15,7 +15,16 @@ class CovidService{
     return null;
   }
 
-  Future<List<ICovidTodayByProvinces>> getCovidTodayByProvinces() async {
+  Future<List<ICovidTodayByProvinces>> getCovidTodayAllProvinces() async {
+    http.Response res = await http.get(Uri.parse("https://covid19.ddc.moph.go.th/api/Cases/today-cases-by-provinces"));
+    if (res.statusCode == 200) {
+      List<dynamic> body = jsonDecode(res.body);
+      return body.map((e) => ICovidTodayByProvinces.formJson(e)).toList();
+    }
+    return [];
+  }
+
+  Future<List<ICovidTodayByProvinces>> getCovidTodayByProvinces(String province) async {
     http.Response res = await http.get(Uri.parse("https://covid19.ddc.moph.go.th/api/Cases/today-cases-by-provinces"));
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);

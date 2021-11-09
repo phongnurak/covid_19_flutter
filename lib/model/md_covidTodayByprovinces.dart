@@ -25,12 +25,12 @@ class ICovidTodayByProvinces{
     return ICovidTodayByProvinces(
       date: json["txn_date"],
       newCase: json["new_case"],
-      totalCase: json["total_case:"],
+      totalCase: json["total_case"],
       newCaseExcludeabroad: json["new_case_excludeabroad"],
       totalCaseExcludeabroad: json["total_case_excludeabroad"],
       newDeath: json["new_death"],
       totalDeath: json["total_death"],
-      province: json["province:ไม่ระบุ, "],
+      province: json["province"],
       updateDate: json["update_date"],
     );
   }
